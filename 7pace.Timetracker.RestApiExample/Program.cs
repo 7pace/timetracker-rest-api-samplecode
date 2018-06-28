@@ -40,28 +40,28 @@ namespace _7pace.Timetracker.RestApiExample
 
             Configuration = builder.Build();
 
-            await QueryGetAndPrint( apiMeEndpoint );
-            await QueryGetAndPrint( apiUserEndpoint );
-            await QueryGetAndPrint( apiActivityTypeEndpoint );
-            await QueryGetAndPrint( apiWorkLogsEndpoint, new Dictionary<string, string>()
+            await GetAndPrint<object>( apiMeEndpoint );
+            await GetAndPrint<object>( apiUserEndpoint );
+            await GetAndPrint<object>( apiActivityTypeEndpoint );
+            await GetAndPrint<object>( apiWorkLogsEndpoint, new Dictionary<string, string>()
             {
                 { "$fromTimestamp", "2018-05-01" },
                 { "$count", "10" }
             } );
 
-            var newWorkLog = await VerbAndPrint<MinimalWorkLog>( HttpMethod.Post, apiWorkLogsEndpoint, new Dictionary<string, string>()
+            var newWorkLog = await VerbAndPrint<MinimalEntity>( HttpMethod.Post, apiWorkLogsEndpoint, new Dictionary<string, string>()
             {
                 { "length", "3600" },
                 { "comment", "test created" }
             } );
 
-            var updatedWorklog = await VerbAndPrint<MinimalWorkLog>( new HttpMethod( "PATCH" ), new[] { apiWorkLogsEndpoint, newWorkLog.Data.Id.ToString() }, new Dictionary<string, string>()
+            var updatedWorklog = await VerbAndPrint<MinimalEntity>( new HttpMethod( "PATCH" ), new[] { apiWorkLogsEndpoint, newWorkLog.Data.Id.ToString() }, new Dictionary<string, string>()
             {
                 { "length", "7200" },
                 { "comment", "test updated" }
             } );
 
-            await VerbAndPrint<MinimalWorkLog>( HttpMethod.Delete, new[] { apiWorkLogsEndpoint, updatedWorklog.Data.Id.ToString() } );
+            await VerbAndPrint<MinimalEntity>( HttpMethod.Delete, new[] { apiWorkLogsEndpoint, updatedWorklog.Data.Id.ToString() } );
 
             Console.WriteLine( "Finished. Press any key to close" );
             Console.ReadKey();
@@ -75,29 +75,40 @@ namespace _7pace.Timetracker.RestApiExample
                    .WithOAuthBearerToken( Configuration[authTokenConfigName] );
         }
 
-        private static Task QueryGetAndPrint ( string path, Dictionary<string, string> queryStringParameters = null )
+        private static IFlurlRequest GetRequest ( string[] paths, Dictionary<string, string> queryStringParameters = null )
         {
-            return QueryGetAndPrint( new[] { path }, queryStringParameters );
-        }
-
-        private static async Task QueryGetAndPrint ( string[] paths, Dictionary<string, string> queryStringParameters = null )
-        {
-            Console.WriteLine( $"Query GET /{string.Join( "/", paths )}" );
             var queryRequest = GetBase();
             queryRequest = paths.Aggregate( queryRequest, ( current, s ) => current.AppendPathSegment( s ) );
-            if ( queryStringParameters != null )
+            if ( queryStringParameters == null )
             {
-                foreach ( KeyValuePair<string, string> queryStringParameter in queryStringParameters )
-                {
-                    queryRequest = queryRequest.SetQueryParam( queryStringParameter.Key, queryStringParameter.Value );
-                }
+                return queryRequest;
             }
 
+            foreach ( KeyValuePair<string, string> queryStringParameter in queryStringParameters )
+            {
+                queryRequest = queryRequest.SetQueryParam( queryStringParameter.Key, queryStringParameter.Value );
+            }
+
+            return queryRequest;
+        }
+
+        private static Task<SuccessResponse<T>> GetAndPrint<T> ( string path, Dictionary<string, string> queryStringParameters = null )
+        {
+            return GetAndPrint<T>( new[] { path }, queryStringParameters );
+        }
+
+        private static async Task<SuccessResponse<T>> GetAndPrint<T> ( string[] paths, Dictionary<string, string> queryStringParameters = null )
+        {
+            Console.WriteLine( $"GET /{string.Join( "/", paths )}" );
+
+            var queryRequest = GetRequest( paths, queryStringParameters );
             var queryResult = await queryRequest.GetStringAsync();
-            var deserializedObject = JsonConvert.DeserializeObject( queryResult );
-            Console.WriteLine( deserializedObject );
+            SuccessResponse<T> result = JsonConvert.DeserializeObject<SuccessResponse<T>>( queryResult );
+
+            Console.WriteLine( JsonConvert.DeserializeObject( queryResult ) );
             Console.WriteLine( "\r\nPress any key to continue\r\n" );
             Console.ReadKey();
+            return result;
         }
 
         private static Task<SuccessResponse<T>> VerbAndPrint<T> ( HttpMethod verb, string path, Dictionary<string, string> bodyParameters = null )
@@ -107,10 +118,9 @@ namespace _7pace.Timetracker.RestApiExample
 
         private static async Task<SuccessResponse<T>> VerbAndPrint<T> ( HttpMethod verb, string[] paths, Dictionary<string, string> bodyParameters = null )
         {
-            Console.WriteLine( $"Query {verb} /{string.Join( "/", paths )}" );
-            var queryRequest = GetBase();
-            queryRequest = paths.Aggregate( queryRequest, ( current, s ) => current.AppendPathSegment( s ) );
+            Console.WriteLine( $"{verb} /{string.Join( "/", paths )}" );
 
+            var queryRequest = GetRequest( paths );
             HttpResponseMessage queryResult = null;
             SuccessResponse<T> result = null;
 
@@ -146,7 +156,7 @@ namespace _7pace.Timetracker.RestApiExample
         public T Data { get; set; }
     }
 
-    public class MinimalWorkLog
+    public class MinimalEntity
     {
         public Guid Id { get; set; }
     }
