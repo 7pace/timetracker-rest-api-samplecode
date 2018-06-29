@@ -58,7 +58,6 @@ namespace _7pace.Timetracker.RestApiExample
 
             if ( !parametersParsed )
             {
-                Console.ReadLine();
                 return;
             }
 
