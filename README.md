@@ -71,14 +71,7 @@ GET http://tfs2018:8090/api/DefaultCollection/rest/users?api-version=3.0-preview
       "vstsCollectionId": "bb251adf-c518-445a-b1a3-bfd5ba1097d9",
       "name": "Eugene Kolomytsev",
       "id": "0d63c0cf-4e66-4a63-9fce-ea5971b783ce"
-    },
-    ...
-      "uniqueName": "TEST-TFS2018\\tester",
-      "vstsId": "ffabf21f-9041-4c5b-9551-9f581233abc0",
-      "vstsCollectionId": "615e3a06-191b-4d4a-a95b-b8fc5f437816",
-      "name": "tester",
-      "id": "9cef96b0-3279-e811-8423-00155d0a6b50"
-    }
+    },   
   ]
 }
 
@@ -140,81 +133,81 @@ GET http://tfs2018:8090/api/DefaultCollection/rest/workLogs?api-version=3.0-prev
 {
   "data": [
 	  {
-		  "timestamp": "2019-08-31T14:45:00",
-		  "length": 3600,
-		  "billableLength": null,
-		  "workItemId": 8948,
-		  "comment": "",
-		  "user": {
-			  "uniqueName": "7PACE\\eugene",
-			  "vstsId": "b17afa0a-6803-47ab-a11b-61051f33fd00",
-			  "vstsCollectionId": "bb251adf-c518-445a-b1a3-bfd5ba1097d9",
-			  "name": "Eugene Kolomytsev",
-			  "id": "0d63c0cf-4e66-4a63-9fce-ea5971b783ce"
-			},
-		  "addedByUser":{
-			  "uniqueName": "7PACE\\eugene",
-			  "vstsId": "b17afa0a-6803-47ab-a11b-61051f33fd00",
-			  "vstsCollectionId": "bb251adf-c518-445a-b1a3-bfd5ba1097d9",
-			  "name": "Eugene Kolomytsev",
-			  "id": "0d63c0cf-4e66-4a63-9fce-ea5971b783ce"
-			},
-		  "createdTimestamp": "2018-03-28T14:45:38.107",
-		  "editedTimestamp": "2018-03-28T14:45:38.107",
-		  "activityType": {
-			"color": "aa9e9e",
-			"name": "[Not Set]",
-			"id": "00000000-0000-0000-0000-000000000000"
-		  },
-		  "flags": {
-			"isTracked": false,
-			"isManuallyEntered": true,
-			"isChanged": false,
-			"isTrackedExtended": false,
-			"isImported": false,
-			"isFromApi": false,
-			"isBillable": false
-		  },
-		  "id": "dc54d553-a762-47c3-a68f-80d64bdd2a66"
-		},
-		{
-		  "timestamp": "2019-08-31T14:35:00",
-		  "length": 3600,
-		  "billableLength": null,
-		  "workItemId": 8946,
-		  "comment": "",
-		  "user": {
-			  "uniqueName": "7PACE\\eugene",
-			  "vstsId": "b17afa0a-6803-47ab-a11b-61051f33fd00",
-			  "vstsCollectionId": "bb251adf-c518-445a-b1a3-bfd5ba1097d9",
-			  "name": "Eugene Kolomytsev",
-			  "id": "0d63c0cf-4e66-4a63-9fce-ea5971b783ce"
-			},
-		  "addedByUser": {
-			  "uniqueName": "7PACE\\eugene",
-			  "vstsId": "b17afa0a-6803-47ab-a11b-61051f33fd00",
-			  "vstsCollectionId": "bb251adf-c518-445a-b1a3-bfd5ba1097d9",
-			  "name": "Eugene Kolomytsev",
-			  "id": "0d63c0cf-4e66-4a63-9fce-ea5971b783ce"
-			},
-		  "createdTimestamp": "2018-03-28T14:36:26.467",
-		  "editedTimestamp": "2018-03-28T14:36:26.467",
-		  "activityType": {
-			"color": "aa9e9e",
-			"name": "[Not Set]",
-			"id": "00000000-0000-0000-0000-000000000000"
-		  },
-		  "flags": {
-			"isTracked": false,
-			"isManuallyEntered": true,
-			"isChanged": true,
-			"isTrackedExtended": false,
-			"isImported": false,
-			"isFromApi": false,
-			"isBillable": false
-		  },
-		  "id": "a3344f33-e8c9-413a-a142-8bfc186ca323"
-		}    
+            "timestamp": "2019-08-31T14:45:00",
+            "length": 3600,
+            "billableLength": null,
+            "workItemId": 8948,
+            "comment": "",
+            "user": {
+                "uniqueName": "7PACE\\eugene",
+                "vstsId": "b17afa0a-6803-47ab-a11b-61051f33fd00",
+                "vstsCollectionId": "bb251adf-c518-445a-b1a3-bfd5ba1097d9",
+                "name": "Eugene Kolomytsev",
+                "id": "0d63c0cf-4e66-4a63-9fce-ea5971b783ce"
+            },
+            "addedByUser":{
+                "uniqueName": "7PACE\\eugene",
+                "vstsId": "b17afa0a-6803-47ab-a11b-61051f33fd00",
+                "vstsCollectionId": "bb251adf-c518-445a-b1a3-bfd5ba1097d9",
+                "name": "Eugene Kolomytsev",
+                "id": "0d63c0cf-4e66-4a63-9fce-ea5971b783ce"
+            },
+            "createdTimestamp": "2018-03-28T14:45:38.107",
+            "editedTimestamp": "2018-03-28T14:45:38.107",
+            "activityType": {
+                "color": "aa9e9e",
+                "name": "[Not Set]",
+                "id": "00000000-0000-0000-0000-000000000000"
+                },
+            "flags": {
+            "isTracked": false,
+            "isManuallyEntered": true,
+            "isChanged": false,
+            "isTrackedExtended": false,
+            "isImported": false,
+            "isFromApi": false,
+            "isBillable": false
+            },
+            "id": "dc54d553-a762-47c3-a68f-80d64bdd2a66"
+        },
+        {
+            "timestamp": "2019-08-31T14:35:00",
+            "length": 3600,
+            "billableLength": null,
+            "workItemId": 8946,
+            "comment": "",
+            "user": {
+                "uniqueName": "7PACE\\eugene",
+                "vstsId": "b17afa0a-6803-47ab-a11b-61051f33fd00",
+                "vstsCollectionId": "bb251adf-c518-445a-b1a3-bfd5ba1097d9",
+                "name": "Eugene Kolomytsev",
+                "id": "0d63c0cf-4e66-4a63-9fce-ea5971b783ce"
+            },
+            "addedByUser": {
+                "uniqueName": "7PACE\\eugene",
+                "vstsId": "b17afa0a-6803-47ab-a11b-61051f33fd00",
+                "vstsCollectionId": "bb251adf-c518-445a-b1a3-bfd5ba1097d9",
+                "name": "Eugene Kolomytsev",
+                "id": "0d63c0cf-4e66-4a63-9fce-ea5971b783ce"
+            },
+            "createdTimestamp": "2018-03-28T14:36:26.467",
+            "editedTimestamp": "2018-03-28T14:36:26.467",
+            "activityType": {
+                "color": "aa9e9e",
+                "name": "[Not Set]",
+                "id": "00000000-0000-0000-0000-000000000000"
+                },
+            "flags": {
+            "isTracked": false,
+            "isManuallyEntered": true,
+            "isChanged": true,
+            "isTrackedExtended": false,
+            "isImported": false,
+            "isFromApi": false,
+            "isBillable": false
+            },
+            "id": "a3344f33-e8c9-413a-a142-8bfc186ca323"
+        }    
 	]
 }
 
