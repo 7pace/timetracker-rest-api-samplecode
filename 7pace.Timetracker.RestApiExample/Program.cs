@@ -48,28 +48,38 @@ namespace _7pace.Timetracker.RestApiExample
                 return;
             }
 
+            //GET "https://[timetrackerUrl]/api/rest/me?api-version=3.0-preview
             await GetAndPrint<object>( apiMeEndpoint );
+
+            //GET "https://[timetrackerUrl]/api/rest/users?api-version=3.0-preview
             await GetAndPrint<object>( apiUserEndpoint );
+
+            //GET "https://[timetrackerUrl]/api/rest/activityTypes?api-version=3.0-preview
             await GetAndPrint<object>( apiActivityTypeEndpoint );
+
+            //GET "https://[timetrackerUrl]/api/rest/workLogs?$fromTimestamp=2018-05-01&$count=10&api-version=3.0-preview
             await GetAndPrint<object>( apiWorkLogsEndpoint, new Dictionary<string, string>()
             {
                 { "$fromTimestamp", "2018-05-01" },
                 { "$count", "10" }
             } );
 
-            var newWorkLog = await VerbAndPrint<MinimalEntity>( HttpMethod.Post, apiWorkLogsEndpoint, new Dictionary<string, string>()
+            //POST "https://[timetrackerUrl]/api/rest/workLogs?api-version=3.0-preview; JSON body
+            var newWorkLog = await VerbAndPrint<EntityWithId>( HttpMethod.Post, apiWorkLogsEndpoint, new Dictionary<string, string>()
             {
                 { "length", "3600" },
                 { "comment", "test created" }
             } );
 
-            var updatedWorklog = await VerbAndPrint<MinimalEntity>( new HttpMethod( "PATCH" ), new[] { apiWorkLogsEndpoint, newWorkLog.Data.Id.ToString() }, new Dictionary<string, string>()
+            //PATCH "https://[timetrackerUrl]/api/rest/workLogs/{id}?api-version=3.0-preview; JSON body
+            var updatedWorklog = await VerbAndPrint<EntityWithId>( new HttpMethod( "PATCH" ), new[] { apiWorkLogsEndpoint, newWorkLog.Data.Id.ToString() }, new Dictionary<string, string>()
             {
                 { "length", "7200" },
                 { "comment", "test updated" }
             } );
 
-            await VerbAndPrint<MinimalEntity>( HttpMethod.Delete, new[] { apiWorkLogsEndpoint, updatedWorklog.Data.Id.ToString() } );
+            //DELETE "https://[timetrackerUrl]/api/rest/workLogs/{id}?api-version=3.0-preview
+            await VerbAndPrint<EntityWithId>( HttpMethod.Delete, new[] { apiWorkLogsEndpoint, updatedWorklog.Data.Id.ToString() } );
 
             Console.WriteLine( "Finished. Press any key to close" );
             Console.ReadKey();
@@ -171,7 +181,7 @@ namespace _7pace.Timetracker.RestApiExample
         public T Data { get; set; }
     }
 
-    public class MinimalEntity
+    public class EntityWithId
     {
         public Guid Id { get; set; }
     }
