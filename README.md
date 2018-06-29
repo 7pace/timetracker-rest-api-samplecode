@@ -155,10 +155,10 @@ GET http://tfs2018:8090/api/DefaultCollection/rest/workLogs?api-version=3.0-prev
             "createdTimestamp": "2018-03-28T14:45:38.107",
             "editedTimestamp": "2018-03-28T14:45:38.107",
             "activityType": {
-                "color": "aa9e9e",
+                color": "ffffff",
                 "name": "[Not Set]",
                 "id": "00000000-0000-0000-0000-000000000000"
-                },
+            },
             "flags": {
             "isTracked": false,
             "isManuallyEntered": true,
@@ -193,10 +193,10 @@ GET http://tfs2018:8090/api/DefaultCollection/rest/workLogs?api-version=3.0-prev
             "createdTimestamp": "2018-03-28T14:36:26.467",
             "editedTimestamp": "2018-03-28T14:36:26.467",
             "activityType": {
-                "color": "aa9e9e",
+                color": "ffffff",
                 "name": "[Not Set]",
                 "id": "00000000-0000-0000-0000-000000000000"
-                },
+            },
             "flags": {
             "isTracked": false,
             "isManuallyEntered": true,
