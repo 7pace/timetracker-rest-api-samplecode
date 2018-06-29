@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
 using Flurl;
 using Flurl.Http;
-using Flurl.Http.Configuration;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace _7pace.Timetracker.RestApiExample
