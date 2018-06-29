@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CommandLine;
 using Flurl;
 using Flurl.Http;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +16,7 @@ namespace _7pace.Timetracker.RestApiExample
     class Program
     {
         private const string apiVersionParameter = "api-version";
+        private const string apiVersionValue = "3.0-preview";
 
         private const string apiRestRoot = "rest";
         private const string apiMeEndpoint = "me";
@@ -21,24 +24,29 @@ namespace _7pace.Timetracker.RestApiExample
         private const string apiActivityTypeEndpoint = "activityTypes";
         private const string apiWorkLogsEndpoint = "workLogs";
 
-        private const string apiVersionConfigName = "apiVersion";
-        private const string apiRootUrlConfigName = "apiRootUrl";
-        private const string authTokenConfigName = "authToken";
-
         static void Main ( string[] args )
         {
             MainAsync( args ).GetAwaiter().GetResult();
         }
 
-        private static IConfigurationRoot Configuration;
+        private static CommandLineOptions Configuration;
 
         private static async Task MainAsync ( string[] args )
         {
-            var builder = new ConfigurationBuilder()
-                          .SetBasePath( Directory.GetCurrentDirectory() )
-                          .AddJsonFile( "appsettings.json" );
+            bool parametersParsed = false;
 
-            Configuration = builder.Build();
+            CommandLine.Parser.Default.ParseArguments<CommandLineOptions>( args ).WithParsed( x =>
+                                                                                              {
+                                                                                                  parametersParsed = true;
+                                                                                                  Configuration = x;
+                                                                                              } )
+                       .WithNotParsed( x => { Console.WriteLine( "Check https://github.com/7pace/timetracker-res-api-samplecode to get samples of usage" ); } );
+
+            if ( !parametersParsed )
+            {
+                Console.ReadLine();
+                return;
+            }
 
             await GetAndPrint<object>( apiMeEndpoint );
             await GetAndPrint<object>( apiUserEndpoint );
@@ -69,10 +77,17 @@ namespace _7pace.Timetracker.RestApiExample
 
         private static IFlurlRequest GetBase ()
         {
-            return new Url( Configuration[apiRootUrlConfigName] )
-                   .AppendPathSegment( apiRestRoot )
-                   .SetQueryParam( apiVersionParameter, Configuration[apiVersionConfigName] )
-                   .WithOAuthBearerToken( Configuration[authTokenConfigName] );
+            //build url similar to "https://[timetrackerUrl]/api/rest/[action]?api-version=3.0-preview
+            var url = new Url( Configuration.RestApiUrl )
+                      .AppendPathSegment( apiRestRoot )
+                      .SetQueryParam( apiVersionParameter, apiVersionValue );
+            if ( Configuration.IsWindowsAuth )
+            {
+                var credentials = CredentialCache.DefaultNetworkCredentials;
+                return url.WithBasicAuth( credentials.UserName, credentials.Password );
+            }
+
+            return url.WithOAuthBearerToken( Configuration.Token );
         }
 
         private static IFlurlRequest GetRequest ( string[] paths, Dictionary<string, string> queryStringParameters = null )
