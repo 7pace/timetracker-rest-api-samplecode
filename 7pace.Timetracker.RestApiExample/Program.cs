@@ -103,7 +103,7 @@ namespace _7pace.Timetracker.RestApiExample
             {
                 var fc = new FlurlClient();
                 ( (HttpClientHandler) fc.HttpMessageHandler ).UseDefaultCredentials = true;
-                return url.AllowAnyHttpStatus().WithClient( fc );
+                return url.WithClient( fc );
             }
 
             return url.WithOAuthBearerToken( Configuration.Token );
