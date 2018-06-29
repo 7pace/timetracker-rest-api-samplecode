@@ -40,7 +40,7 @@ namespace _7pace.Timetracker.RestApiExample
                                                                                                   parametersParsed = true;
                                                                                                   Configuration = x;
                                                                                               } )
-                       .WithNotParsed( x => { Console.WriteLine( "Check https://github.com/7pace/timetracker-res-api-samplecode to get samples of usage" ); } );
+                       .WithNotParsed( x => { Console.WriteLine( "Check https://github.com/7pace/timetracker-rest-api-samplecode to get samples of usage" ); } );
 
             if ( !parametersParsed )
             {
