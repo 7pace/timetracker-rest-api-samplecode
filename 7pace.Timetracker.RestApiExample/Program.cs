@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using CommandLine;
 using Flurl;
 using Flurl.Http;
+using Flurl.Http.Configuration;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -47,6 +49,7 @@ namespace _7pace.Timetracker.RestApiExample
         {
             ConsoleDualOut.Init( "appLog.json" );
             Console.WriteLine( $"Execution started at {DateTime.Now}" );
+
             bool parametersParsed = false;
 
             CommandLine.Parser.Default.ParseArguments<CommandLineOptions>( args ).WithParsed( x =>
@@ -103,8 +106,9 @@ namespace _7pace.Timetracker.RestApiExample
                       .SetQueryParam( apiVersionParameter, apiVersionValue );
             if ( Configuration.IsWindowsAuth )
             {
-                var credentials = CredentialCache.DefaultNetworkCredentials;
-                return url.WithBasicAuth( credentials.UserName, credentials.Password );
+                var fc = new FlurlClient();
+                ( (HttpClientHandler) fc.HttpMessageHandler ).UseDefaultCredentials = true;
+                return url.AllowAnyHttpStatus().WithClient( fc );
             }
 
             return url.WithOAuthBearerToken( Configuration.Token );
