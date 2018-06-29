@@ -25,3 +25,7 @@ To run application to connect to TFS use console with arguments (it will use NTL
 ```console 
 dotnet.exe 7pace.Timetracker.RestApiExample.dll [yourTimetrackerServiceUrl]/api/[CollectionName] -w
 ```
+
+## Execution result
+Application will output to console VERB, path and result of each request. It will create, update and delete worklog, so it will leave no trash data.
+Each execution is appended in a file "appLog.json" so you will have a history of all runs.
