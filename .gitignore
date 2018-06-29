@@ -262,3 +262,4 @@ __pycache__/
 
 launchSettings.json
 .vscode/
+/7pace.Timetracker.RestApiExample/appLog.json
