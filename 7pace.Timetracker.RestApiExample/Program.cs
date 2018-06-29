@@ -33,6 +33,8 @@ namespace _7pace.Timetracker.RestApiExample
 
         private static async Task MainAsync ( string[] args )
         {
+            DualOut.Init( "appLog.json" );
+            Console.WriteLine( $"Execution started at {DateTime.Now}" );
             bool parametersParsed = false;
 
             CommandLine.Parser.Default.ParseArguments<CommandLineOptions>( args ).WithParsed( x =>
@@ -124,9 +126,9 @@ namespace _7pace.Timetracker.RestApiExample
 
         private static async Task<SuccessResponse<T>> GetAndPrint<T> ( string[] paths, Dictionary<string, string> queryStringParameters = null )
         {
-            Console.WriteLine( $"GET /{string.Join( "/", paths )}" );
-
             var queryRequest = GetRequest( paths, queryStringParameters );
+            Console.WriteLine( $"GET {queryRequest.Url}" );
+
             var queryResult = await queryRequest.GetStringAsync();
             SuccessResponse<T> result = JsonConvert.DeserializeObject<SuccessResponse<T>>( queryResult );
 
@@ -143,8 +145,6 @@ namespace _7pace.Timetracker.RestApiExample
 
         private static async Task<SuccessResponse<T>> VerbAndPrint<T> ( HttpMethod verb, string[] paths, Dictionary<string, string> bodyParameters = null )
         {
-            Console.WriteLine( $"{verb} /{string.Join( "/", paths )}" );
-
             var queryRequest = GetRequest( paths );
             HttpResponseMessage queryResult = null;
             SuccessResponse<T> result = null;
@@ -165,9 +165,14 @@ namespace _7pace.Timetracker.RestApiExample
 
             if ( queryResult != null )
             {
+                Console.WriteLine( $"{verb} {queryRequest.Url}" );
                 var responseString = await queryResult.Content.ReadAsStringAsync();
                 result = JsonConvert.DeserializeObject<SuccessResponse<T>>( responseString );
                 Console.WriteLine( JsonConvert.DeserializeObject( responseString ) );
+            }
+            else
+            {
+                Console.WriteLine( $"{verb} is not supported" );
             }
 
             Console.WriteLine( "\r\nPress any key to continue\r\n" );
