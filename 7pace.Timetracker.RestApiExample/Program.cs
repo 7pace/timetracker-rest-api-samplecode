@@ -75,7 +75,7 @@ namespace _7pace.Timetracker.RestApiExample
             Console.ReadKey();
         }
 
-        private static IFlurlRequest GetBase ()
+        private static IFlurlRequest GetBaseUrl ()
         {
             //build url similar to "https://[timetrackerUrl]/api/rest/[action]?api-version=3.0-preview
             var url = new Url( Configuration.RestApiUrl )
@@ -92,7 +92,7 @@ namespace _7pace.Timetracker.RestApiExample
 
         private static IFlurlRequest GetRequest ( string[] paths, Dictionary<string, string> queryStringParameters = null )
         {
-            var queryRequest = GetBase();
+            var queryRequest = GetBaseUrl();
             queryRequest = paths.Aggregate( queryRequest, ( current, s ) => current.AppendPathSegment( s ) );
             if ( queryStringParameters == null )
             {
