@@ -18,7 +18,7 @@ namespace _7pace.Timetracker.RestApiExample
         private const string apiRestRoot = "rest";
         private const string apiMeEndpoint = "me";
         private const string apiUserEndpoint = "users";
-        private const string apiActivityTypeEndpoint = "activityTypes";
+        private const string apiActivityTypesEndpoint = "activityTypes";
         private const string apiWorkLogsEndpoint = "workLogs";
 
         static void Main ( string[] args )
@@ -66,7 +66,7 @@ namespace _7pace.Timetracker.RestApiExample
             await GetAndPrint<object>( apiUserEndpoint );
 
             //GET "https://[timetrackerUrl]/api/rest/activityTypes?api-version=3.0-preview
-            await GetAndPrint<object>( apiActivityTypeEndpoint );
+            await GetAndPrint<object>( apiActivityTypesEndpoint );
 
             //GET "https://[timetrackerUrl]/api/rest/workLogs?$fromTimestamp=2018-05-01&$count=10&api-version=3.0-preview
             await GetAndPrint<object>( apiWorkLogsEndpoint, new Dictionary<string, string>()
