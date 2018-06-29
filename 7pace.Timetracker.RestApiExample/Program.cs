@@ -28,7 +28,7 @@ namespace _7pace.Timetracker.RestApiExample
         {
             try
             {
-                MainAsync( args ).GetAwaiter().GetResult();
+                MainAsync( args ).ConfigureAwait( false ).GetAwaiter().GetResult();
             }
             catch ( Exception e )
             {
