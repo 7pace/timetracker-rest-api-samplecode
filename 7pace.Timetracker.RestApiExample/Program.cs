@@ -26,14 +26,26 @@ namespace _7pace.Timetracker.RestApiExample
 
         static void Main ( string[] args )
         {
-            MainAsync( args ).GetAwaiter().GetResult();
+            try
+            {
+                MainAsync( args ).GetAwaiter().GetResult();
+            }
+            catch ( Exception e )
+            {
+                Console.WriteLine( e );
+            }
+            finally
+            {
+                Console.WriteLine( "Finished. Press any key to close" );
+                Console.ReadKey();
+            }
         }
 
         private static CommandLineOptions Configuration;
 
         private static async Task MainAsync ( string[] args )
         {
-            DualOut.Init( "appLog.json" );
+            ConsoleDualOut.Init( "appLog.json" );
             Console.WriteLine( $"Execution started at {DateTime.Now}" );
             bool parametersParsed = false;
 
@@ -82,9 +94,6 @@ namespace _7pace.Timetracker.RestApiExample
 
             //DELETE "https://[timetrackerUrl]/api/rest/workLogs/{id}?api-version=3.0-preview
             await VerbAndPrint<EntityWithId>( HttpMethod.Delete, new[] { apiWorkLogsEndpoint, updatedWorklog.Data.Id.ToString() } );
-
-            Console.WriteLine( "Finished. Press any key to close" );
-            Console.ReadKey();
         }
 
         private static IFlurlRequest GetBaseUrl ()

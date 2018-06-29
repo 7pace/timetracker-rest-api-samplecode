@@ -4,7 +4,7 @@ using System.Text;
 
 namespace _7pace.Timetracker.RestApiExample
 {
-    public static class DualOut
+    public static class ConsoleDualOut
     {
         private static TextWriter _current;
 
