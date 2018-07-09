@@ -1,5 +1,5 @@
 ## Description
-This example application will make a series of requests to available API endpoints. Current endpoints:
+This example application will make a series of requests to available API endpoints. REST API has "[TimetrackerServiceUrl]/api/rest" prefix before endpoints. Current endpoints are:
 * /me
 * /users
 * /activityTypes
