@@ -7,7 +7,7 @@ This example application will make a series of requests to available API endpoin
 
 All, except **workLogs**, are currently read only.
 
-For **workLogs** following list of VERB are available:
+For **workLogs** following list of VERBs are available:
 * **POST** to create new worklog
 * **PATCH** to partially update existing worklog
 * **DELETE** to delete worklog from system
