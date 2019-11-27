@@ -13,7 +13,7 @@ namespace _7pace.Timetracker.RestApiExample
     class Program
     {
         private const string apiVersionParameter = "api-version";
-        private const string apiVersionValue = "3.0-preview";
+        private const string apiVersionValue = "3.0";
 
         private const string apiRestRoot = "rest";
         private const string apiMeEndpoint = "me";

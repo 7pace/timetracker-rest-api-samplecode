@@ -32,7 +32,7 @@ Each execution is appended in a file "appLog.json" so you will have a history of
 Here you'll find cutdown result of single application run:
 ```json
 Execution started at 29.06.2018 15:36:11
-GET http://tfs2018:8090/api/DefaultCollection/rest/me?api-version=3.0-preview
+GET http://tfs2018:8090/api/DefaultCollection/rest/me?api-version=3.0
 {
   "data": {
     "user": {
@@ -55,7 +55,7 @@ GET http://tfs2018:8090/api/DefaultCollection/rest/me?api-version=3.0-preview
 
 Press any key to continue
 
-GET http://tfs2018:8090/api/DefaultCollection/rest/users?api-version=3.0-preview
+GET http://tfs2018:8090/api/DefaultCollection/rest/users?api-version=3.0
 {
   "data": [
     {
@@ -77,7 +77,7 @@ GET http://tfs2018:8090/api/DefaultCollection/rest/users?api-version=3.0-preview
 
 Press any key to continue
 
-GET http://tfs2018:8090/api/DefaultCollection/rest/activityTypes?api-version=3.0-preview
+GET http://tfs2018:8090/api/DefaultCollection/rest/activityTypes?api-version=3.0
 {
   "data": {
     "enabled": true,
@@ -129,7 +129,7 @@ GET http://tfs2018:8090/api/DefaultCollection/rest/activityTypes?api-version=3.0
 
 Press any key to continue
 
-GET http://tfs2018:8090/api/DefaultCollection/rest/workLogs?api-version=3.0-preview&$fromTimestamp=2018-05-01&$count=10
+GET http://tfs2018:8090/api/DefaultCollection/rest/workLogs?api-version=3.0&$fromTimestamp=2018-05-01&$count=10
 {
   "data": [
 	  {
@@ -213,7 +213,7 @@ GET http://tfs2018:8090/api/DefaultCollection/rest/workLogs?api-version=3.0-prev
 
 Press any key to continue
 
-POST http://tfs2018:8090/api/DefaultCollection/rest/workLogs?api-version=3.0-preview
+POST http://tfs2018:8090/api/DefaultCollection/rest/workLogs?api-version=3.0
 {
   "data": {
     "timestamp": "2018-06-29T05:36:21.3890636",
@@ -257,7 +257,7 @@ POST http://tfs2018:8090/api/DefaultCollection/rest/workLogs?api-version=3.0-pre
 
 Press any key to continue
 
-PATCH http://tfs2018:8090/api/DefaultCollection/rest/workLogs/a4919706-997b-e811-8425-00155d0a6b50?api-version=3.0-preview
+PATCH http://tfs2018:8090/api/DefaultCollection/rest/workLogs/a4919706-997b-e811-8425-00155d0a6b50?api-version=3.0
 {
   "data": {
     "timestamp": "2018-06-29T05:36:21.39",
@@ -301,7 +301,7 @@ PATCH http://tfs2018:8090/api/DefaultCollection/rest/workLogs/a4919706-997b-e811
 
 Press any key to continue
 
-DELETE http://tfs2018:8090/api/DefaultCollection/rest/workLogs/a4919706-997b-e811-8425-00155d0a6b50?api-version=3.0-preview
+DELETE http://tfs2018:8090/api/DefaultCollection/rest/workLogs/a4919706-997b-e811-8425-00155d0a6b50?api-version=3.0
 {
   "data": null
 }
