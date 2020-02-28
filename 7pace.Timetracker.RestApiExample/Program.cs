@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace _7pace.Timetracker.RestApiExample
 {
-    class Program
+    internal class Program
     {
         private const string apiVersionParameter = "api-version";
         private const string apiVersionValue = "3.0";
@@ -21,168 +21,168 @@ namespace _7pace.Timetracker.RestApiExample
         private const string apiActivityTypesEndpoint = "activityTypes";
         private const string apiWorkLogsEndpoint = "workLogs";
 
-        static void Main ( string[] args )
+        private static void Main(string[] args)
         {
             try
             {
-                MainAsync( args ).ConfigureAwait( false ).GetAwaiter().GetResult();
+                MainAsync(args).ConfigureAwait(false).GetAwaiter().GetResult();
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
-                Console.WriteLine( e );
+                Console.WriteLine(e);
             }
             finally
             {
-                Console.WriteLine( "Finished. Press any key to close" );
+                Console.WriteLine("Finished. Press any key to close");
                 Console.ReadKey();
             }
         }
 
         private static CommandLineOptions Configuration;
 
-        private static async Task MainAsync ( string[] args )
+        private static async Task MainAsync(string[] args)
         {
-            ConsoleDualOut.Init( "appLog.json" );
-            Console.WriteLine( $"Execution started at {DateTime.Now}" );
+            ConsoleDualOut.Init("appLog.json");
+            Console.WriteLine($"Execution started at {DateTime.Now}");
 
             bool parametersParsed = false;
 
-            CommandLine.Parser.Default.ParseArguments<CommandLineOptions>( args ).WithParsed( x =>
-                                                                                              {
-                                                                                                  parametersParsed = true;
-                                                                                                  Configuration = x;
-                                                                                              } )
-                       .WithNotParsed( x => { Console.WriteLine( "Check https://github.com/7pace/timetracker-rest-api-samplecode to get samples of usage" ); } );
+            CommandLine.Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsed(x =>
+                                                                                           {
+                                                                                               parametersParsed = true;
+                                                                                               Configuration = x;
+                                                                                           })
+                       .WithNotParsed(x => { Console.WriteLine("Check https://github.com/7pace/timetracker-rest-api-samplecode to get samples of usage"); });
 
-            if ( !parametersParsed )
+            if (!parametersParsed)
             {
                 return;
             }
 
-            //GET "https://[timetrackerUrl]/api/rest/me?api-version=3.0-preview
-            await GetAndPrint<object>( apiMeEndpoint );
+            //GET "https://[timetrackerUrl]/api/rest/me?api-version=3.0
+            await GetAndPrint<object>(apiMeEndpoint);
 
-            //GET "https://[timetrackerUrl]/api/rest/users?api-version=3.0-preview
-            await GetAndPrint<object>( apiUserEndpoint );
+            //GET "https://[timetrackerUrl]/api/rest/users?api-version=3.0
+            await GetAndPrint<object>(apiUserEndpoint);
 
-            //GET "https://[timetrackerUrl]/api/rest/activityTypes?api-version=3.0-preview
-            await GetAndPrint<object>( apiActivityTypesEndpoint );
+            //GET "https://[timetrackerUrl]/api/rest/activityTypes?api-version=3.0
+            await GetAndPrint<object>(apiActivityTypesEndpoint);
 
-            //GET "https://[timetrackerUrl]/api/rest/workLogs?$fromTimestamp=2018-05-01&$count=10&api-version=3.0-preview
-            await GetAndPrint<object>( apiWorkLogsEndpoint, new Dictionary<string, string>()
+            //GET "https://[timetrackerUrl]/api/rest/workLogs?$fromTimestamp=2018-05-01&$count=10&api-version=3.0
+            await GetAndPrint<object>(apiWorkLogsEndpoint, new Dictionary<string, string>()
             {
                 { "$fromTimestamp", "2018-05-01" },
                 { "$count", "10" }
-            } );
+            });
 
-            //POST "https://[timetrackerUrl]/api/rest/workLogs?api-version=3.0-preview; JSON body
-            var newWorkLog = await VerbAndPrint<EntityWithId>( HttpMethod.Post, apiWorkLogsEndpoint, new Dictionary<string, string>()
+            //POST "https://[timetrackerUrl]/api/rest/workLogs?api-version=3.0; JSON body
+            var newWorkLog = await VerbAndPrint<EntityWithId>(HttpMethod.Post, apiWorkLogsEndpoint, new Dictionary<string, string>()
             {
                 { "length", "3600" },
                 { "comment", "test created" }
-            } );
+            });
 
-            //PATCH "https://[timetrackerUrl]/api/rest/workLogs/{id}?api-version=3.0-preview; JSON body
-            var updatedWorklog = await VerbAndPrint<EntityWithId>( new HttpMethod( "PATCH" ), new[] { apiWorkLogsEndpoint, newWorkLog.Data.Id.ToString() }, new Dictionary<string, string>()
+            //PATCH "https://[timetrackerUrl]/api/rest/workLogs/{id}?api-version=3.0; JSON body
+            var updatedWorklog = await VerbAndPrint<EntityWithId>(new HttpMethod("PATCH"), new[] { apiWorkLogsEndpoint, newWorkLog.Data.Id.ToString() }, new Dictionary<string, string>()
             {
                 { "length", "7200" },
                 { "comment", "test updated" }
-            } );
+            });
 
-            //DELETE "https://[timetrackerUrl]/api/rest/workLogs/{id}?api-version=3.0-preview
-            await VerbAndPrint<EntityWithId>( HttpMethod.Delete, new[] { apiWorkLogsEndpoint, updatedWorklog.Data.Id.ToString() } );
+            //DELETE "https://[timetrackerUrl]/api/rest/workLogs/{id}?api-version=3.0
+            await VerbAndPrint<EntityWithId>(HttpMethod.Delete, new[] { apiWorkLogsEndpoint, updatedWorklog.Data.Id.ToString() });
         }
 
-        private static IFlurlRequest GetBaseUrl ()
+        private static IFlurlRequest GetBaseUrl()
         {
-            //build url similar to "https://[timetrackerUrl]/api/rest/[action]?api-version=3.0-preview
-            var url = new Url( Configuration.RestApiUrl )
-                      .AppendPathSegment( apiRestRoot )
-                      .SetQueryParam( apiVersionParameter, apiVersionValue );
-            if ( Configuration.IsWindowsAuth )
+            //build url similar to "https://[timetrackerUrl]/api/rest/[action]?api-version=3.0
+            var url = new Url(Configuration.RestApiUrl)
+                      .AppendPathSegment(apiRestRoot)
+                      .SetQueryParam(apiVersionParameter, apiVersionValue);
+            if (Configuration.IsWindowsAuth)
             {
                 var fc = new FlurlClient();
-                ( (HttpClientHandler) fc.HttpMessageHandler ).UseDefaultCredentials = true;
-                return url.WithClient( fc );
+                ((HttpClientHandler)fc.HttpMessageHandler).UseDefaultCredentials = true;
+                return url.WithClient(fc);
             }
 
-            return url.WithOAuthBearerToken( Configuration.Token );
+            return url.WithOAuthBearerToken(Configuration.Token);
         }
 
-        private static IFlurlRequest GetRequest ( string[] paths, Dictionary<string, string> queryStringParameters = null )
+        private static IFlurlRequest GetRequest(string[] paths, Dictionary<string, string> queryStringParameters = null)
         {
             var queryRequest = GetBaseUrl();
-            queryRequest = paths.Aggregate( queryRequest, ( current, s ) => current.AppendPathSegment( s ) );
-            if ( queryStringParameters == null )
+            queryRequest = paths.Aggregate(queryRequest, (current, s) => current.AppendPathSegment(s));
+            if (queryStringParameters == null)
             {
                 return queryRequest;
             }
 
-            foreach ( KeyValuePair<string, string> queryStringParameter in queryStringParameters )
+            foreach (KeyValuePair<string, string> queryStringParameter in queryStringParameters)
             {
-                queryRequest = queryRequest.SetQueryParam( queryStringParameter.Key, queryStringParameter.Value );
+                queryRequest = queryRequest.SetQueryParam(queryStringParameter.Key, queryStringParameter.Value);
             }
 
             return queryRequest;
         }
 
-        private static Task<SuccessResponse<T>> GetAndPrint<T> ( string path, Dictionary<string, string> queryStringParameters = null )
+        private static Task<SuccessResponse<T>> GetAndPrint<T>(string path, Dictionary<string, string> queryStringParameters = null)
         {
-            return GetAndPrint<T>( new[] { path }, queryStringParameters );
+            return GetAndPrint<T>(new[] { path }, queryStringParameters);
         }
 
-        private static async Task<SuccessResponse<T>> GetAndPrint<T> ( string[] paths, Dictionary<string, string> queryStringParameters = null )
+        private static async Task<SuccessResponse<T>> GetAndPrint<T>(string[] paths, Dictionary<string, string> queryStringParameters = null)
         {
-            var queryRequest = GetRequest( paths, queryStringParameters );
-            Console.WriteLine( $"GET {queryRequest.Url}" );
+            var queryRequest = GetRequest(paths, queryStringParameters);
+            Console.WriteLine($"GET {queryRequest.Url}");
 
             var queryResult = await queryRequest.GetStringAsync();
-            SuccessResponse<T> result = JsonConvert.DeserializeObject<SuccessResponse<T>>( queryResult );
+            SuccessResponse<T> result = JsonConvert.DeserializeObject<SuccessResponse<T>>(queryResult);
 
-            Console.WriteLine( JsonConvert.DeserializeObject( queryResult ) );
-            Console.WriteLine( "\r\nPress any key to continue\r\n" );
+            Console.WriteLine(JsonConvert.DeserializeObject(queryResult));
+            Console.WriteLine("\r\nPress any key to continue\r\n");
             Console.ReadKey();
             return result;
         }
 
-        private static Task<SuccessResponse<T>> VerbAndPrint<T> ( HttpMethod verb, string path, Dictionary<string, string> bodyParameters = null )
+        private static Task<SuccessResponse<T>> VerbAndPrint<T>(HttpMethod verb, string path, Dictionary<string, string> bodyParameters = null)
         {
-            return VerbAndPrint<T>( verb, new[] { path }, bodyParameters );
+            return VerbAndPrint<T>(verb, new[] { path }, bodyParameters);
         }
 
-        private static async Task<SuccessResponse<T>> VerbAndPrint<T> ( HttpMethod verb, string[] paths, Dictionary<string, string> bodyParameters = null )
+        private static async Task<SuccessResponse<T>> VerbAndPrint<T>(HttpMethod verb, string[] paths, Dictionary<string, string> bodyParameters = null)
         {
-            var queryRequest = GetRequest( paths );
+            var queryRequest = GetRequest(paths);
             HttpResponseMessage queryResult = null;
             SuccessResponse<T> result = null;
 
-            if ( verb == HttpMethod.Post )
+            if (verb == HttpMethod.Post)
             {
-                queryResult = await queryRequest.PostJsonAsync( bodyParameters );
+                queryResult = await queryRequest.PostJsonAsync(bodyParameters);
             }
-            else if ( verb == new HttpMethod( "PATCH" ) )
+            else if (verb == new HttpMethod("PATCH"))
             {
-                queryResult = await queryRequest.PatchJsonAsync( bodyParameters );
+                queryResult = await queryRequest.PatchJsonAsync(bodyParameters);
             }
-            else if ( verb == HttpMethod.Delete )
+            else if (verb == HttpMethod.Delete)
             {
                 queryResult = await queryRequest.DeleteAsync();
             }
             //todo put is not implemented
 
-            if ( queryResult != null )
+            if (queryResult != null)
             {
-                Console.WriteLine( $"{verb} {queryRequest.Url}" );
+                Console.WriteLine($"{verb} {queryRequest.Url}");
                 var responseString = await queryResult.Content.ReadAsStringAsync();
-                result = JsonConvert.DeserializeObject<SuccessResponse<T>>( responseString );
-                Console.WriteLine( JsonConvert.DeserializeObject( responseString ) );
+                result = JsonConvert.DeserializeObject<SuccessResponse<T>>(responseString);
+                Console.WriteLine(JsonConvert.DeserializeObject(responseString));
             }
             else
             {
-                Console.WriteLine( $"{verb} is not supported" );
+                Console.WriteLine($"{verb} is not supported");
             }
 
-            Console.WriteLine( "\r\nPress any key to continue\r\n" );
+            Console.WriteLine("\r\nPress any key to continue\r\n");
             Console.ReadKey();
             return result;
         }
