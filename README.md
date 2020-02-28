@@ -1,5 +1,5 @@
 ## Description
-This example application will make a series of requests to available API endpoints. REST API has "[TimetrackerServiceUrl]/api/rest" prefix before endpoints. Current endpoints (GET) are:
+This example application will make a series of requests to available API endpoints. REST API has "[TimetrackerServiceUrl]/api/rest" prefix before endpoints. Current endpoints (**GET**) are:
 * /me
 * /users
 * /activityTypes
@@ -13,17 +13,17 @@ For **workLogs** following list of VERBs are available:
 * **DELETE** to delete worklog from system
 
 ## Running
-Application can connect either to VSTS or to TFS.
+Application can connect either to DevOps (former VSTS) or to DevOps Server (former TFS).
 
-To run application to connect to VSTS use console with arguments:
+To run application to connect to DevOps use console with arguments:
 
 ```console 
-dotnet.exe 7pace.Timetracker.RestApiExample.dll https://[yourVstsAccountName].timehub.7pace.com/api -t [yourApiToken]
+dotnet.exe 7pace.Timetracker.RestApiExample.dll https://[yourDevOpsAccountName].timehub.7pace.com/api -t [yourApiToken]
 ```
-To run application to connect to TFS use console with arguments (it will use NTLM authorization and your current logged-in windows user):
+To run application to connect to DevOps Server (former TFS) use console with arguments (it will use NTLM authorization and your current logged-in windows user):
 
 ```console 
-dotnet.exe 7pace.Timetracker.RestApiExample.dll [yourTimetrackerServiceUrl]/api/[CollectionName] -w
+dotnet.exe 7pace.Timetracker.RestApiExample.dll [yourTimetrackerServiceUrlWithPort]/api/[CollectionName] -w
 ```
 
 ## Execution result
